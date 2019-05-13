@@ -6760,7 +6760,7 @@ var AuthenticationService = /** @class */ (function () {
                 user.access = loginRespons.access;
                 user.refresh = loginRespons.refresh;
             }
-            return _this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + "/users/" + user.id) //second api call
+            return _this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + "/users/" + user.id) // second api call
                 // need some mode logic after second API call is done? call first()?
                 // map the result with a pipe
                 .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["map"])(function (userData) {
@@ -7050,7 +7050,7 @@ module.exports = "\r\ndiv.header{\r\n  font-family: \"Playfair display\";\r\n  t
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!--The content below is only a placeholder and can be replaced.-->\r\n<link rel=\"stylesheet\" type=\"text/css\" href=\"//fonts.googleapis.com/css?family=Playfair+Display\"/>\r\n<div class=\"ui-grid content\">\r\n  <div class=\"ui-g-12 ui-g-nopad header\">\r\n    <div class=\"ui-g-1 logo\">\r\n      <img src=\"./assets/icons/boisko32white.png\">\r\n    </div>\r\n    <div class=\"ui-g-11\">\r\n      <div class=\"ui-g-12 ui-g-nopad\">\r\n        S P O T C R E W\r\n      </div>\r\n    </div>\r\n  </div>\r\n  <div class=\"router\" *ngIf=\"isUserLogged; else login\">\r\n    <div class=\"ui-g-1 ui-g-nopad menu\">\r\n      <app-menu></app-menu>\r\n    </div>\r\n    <div class=\"ui-g-11 ui-g-nopad map\">\r\n      <router-outlet></router-outlet>\r\n    </div>\r\n  </div>\r\n  <ng-template #login>\r\n    <div class=\"ui-g-12 ui-g-nopad login\">\r\n      <router-outlet></router-outlet>\r\n    </div>\r\n  </ng-template>\r\n  <div class=\"ui-g-12 header\">\r\n    <div>© 2019 Copyright:\r\n      <a href=\"#\"> SPOTCREW</a>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<!--The content below is only a placeholder and can be replaced.-->\r\n<link rel=\"stylesheet\" type=\"text/css\" href=\"//fonts.googleapis.com/css?family=Playfair+Display\"/>\r\n<div class=\"ui-grid content\">\r\n  <div class=\"ui-g-12 ui-g-nopad header\">\r\n    <div class=\"ui-g-1 logo\">\r\n      <img src=\"./assets/icons/boisko32white.png\">\r\n    </div>\r\n    <div class=\"ui-g-11\">\r\n      <div class=\"ui-g-12 ui-g-nopad\">\r\n        S P O T C R E W\r\n      </div>\r\n    </div>\r\n  </div>\r\n  <div class=\"router\" *ngIf=\"isUserLogged; else login\">\r\n    <div class=\"ui-g-1 ui-g-nopad menu\">\r\n      <app-menu></app-menu>\r\n    </div>\r\n    <div class=\"ui-g-11 ui-g-nopad map\">\r\n      <router-outlet></router-outlet>\r\n    </div>\r\n  </div>\r\n  <ng-template #login>\r\n    <div class=\"ui-g-12 ui-g-nopad login\">\r\n      <router-outlet></router-outlet>\r\n    </div>\r\n  </ng-template>\r\n  <div class=\"ui-g-12 header\">\r\n    <div>© 2019 Copyright:\r\n      <a href=\"#\"> SPOTCREW</a>\r\n      <button id=\"btnAdd\" (click)=\"addToHomeScreen($event)\">Dodaj do pulpitu</button>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -7076,6 +7076,7 @@ var AppComponent = /** @class */ (function () {
         this.authService = authService;
         this.title = 'Spotcrew';
         this.isUserLogged = false;
+        this.btnAdd = document.getElementById('btnAdd');
         this.authService.currentUser.subscribe(function (res) {
             if (res != null) {
                 _this.isUserLogged = true;
@@ -7084,7 +7085,37 @@ var AppComponent = /** @class */ (function () {
                 _this.isUserLogged = false;
             }
         });
+        window.addEventListener('beforeinstallprompt', function (e) {
+            console.log('beforeinstallprompt');
+            // Prevent Chrome 67 and earlier from automatically showing the prompt
+            e.preventDefault();
+            // Stash the event so it can be triggered later.
+            _this.deferredPrompt = e;
+            // Update UI notify the user they can add to home screen
+            _this.btnAdd.style.display = 'block';
+        });
+        window.addEventListener('appinstalled', function (evt) {
+            console.log('appinstaled');
+        });
     }
+    AppComponent.prototype.addToHomeScreen = function (event) {
+        var _this = this;
+        // hide our user interface that shows our A2HS button
+        this.btnAdd.style.display = 'none';
+        // Show the prompt
+        this.deferredPrompt.prompt();
+        // Wait for the user to respond to the prompt
+        this.deferredPrompt.userChoice
+            .then(function (choiceResult) {
+            if (choiceResult.outcome === 'accepted') {
+                console.log('User accepted the A2HS prompt');
+            }
+            else {
+                console.log('User dismissed the A2HS prompt');
+            }
+            _this.deferredPrompt = null;
+        });
+    };
     AppComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
             selector: 'app-root',
@@ -7631,7 +7662,7 @@ module.exports = "div.icon{\r\n  width: 48px;\r\n  height: 48px;\r\n  background
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div>\n  <div class=\"icon\" pTooltip=\"Map\" tooltipPosition=\"right\" (click)=\"navigateTo('map')\">\n    <span class=\"icon\">\n      <i class=\"fas fa-map-marked\"></i>\n    </span>\n  </div>\n  <div #actualTarget class=\"icon\" pTooltip=\"Search\" tooltipPosition=\"right\" (click)=\"showSearchingPanel($event, actualTarget, op)\">\n    <span class=\"icon\">\n      <i class=\"fas fa-search\" ></i>\n    </span>\n  </div>\n  <div class=\"icon\" pTooltip=\"List\" tooltipPosition=\"right\" (click)=\"navigateTo('list')\">\n    <span class=\"icon\">\n      <i class=\"fas fa-th-list\"></i>\n    </span>\n  </div>\n  <div class=\"icon\" pTooltip=\"Profile\" tooltipPosition=\"right\" tooltipStyleClass=\"tooltip\" (click)=\"navigateTo('profile')\">\n    <span class=\"icon\">\n      <i class=\"fas fa-user-alt\"></i>\n    </span>\n  </div>\n  <div class=\"icon\" pTooltip=\"Logout\" tooltipPosition=\"right\" tooltipStyleClass=\"tooltip\" (click)=\"logout()\">\n    <span class=\"icon\">\n      <i class=\"fas fa-sign-out-alt\"></i>\n    </span>\n  </div>\n  <div class=\"icon\" pTooltip=\"Admin\" tooltipPosition=\"right\" tooltipStyleClass=\"tooltip\" >\n    <span class=\"icon\">\n      <i class=\"fas fa-user-shield\"></i>\n    </span>\n  </div>\n</div>\n\n<p-overlayPanel #op [dismissable]=\"true\" (onShow)=\"clearQuery()\">\n  <div class=\"ui-g-12 searching-panel\">\n    <p-autoComplete [(ngModel)]=\"query\" [autoHighlight]=\"true\" [suggestions]=\"locationResults\" [minLength]=\"3\"\n      size=\"30\" field=\"title\"\n      (completeMethod)=\"locationSearch($event)\" placeholder=\"Location\" (onSelect)=\"centerMap($event, op)\"></p-autoComplete>\n  </div>\n</p-overlayPanel>\n"
+module.exports = "<div>\r\n  <div class=\"icon\" pTooltip=\"Map\" tooltipPosition=\"right\" (click)=\"navigateTo('map')\">\r\n    <span class=\"icon\">\r\n      <i class=\"fas fa-map-marked\"></i>\r\n    </span>\r\n  </div>\r\n  <div #actualTarget class=\"icon\" pTooltip=\"Search\" tooltipPosition=\"right\" (click)=\"showSearchingPanel($event, actualTarget, op)\">\r\n    <span class=\"icon\">\r\n      <i class=\"fas fa-search\" ></i>\r\n    </span>\r\n  </div>\r\n  <div class=\"icon\" pTooltip=\"List\" tooltipPosition=\"right\" (click)=\"navigateTo('list')\">\r\n    <span class=\"icon\">\r\n      <i class=\"fas fa-th-list\"></i>\r\n    </span>\r\n  </div>\r\n  <div class=\"icon\" pTooltip=\"Profile\" tooltipPosition=\"right\" tooltipStyleClass=\"tooltip\" (click)=\"navigateTo('profile')\">\r\n    <span class=\"icon\">\r\n      <i class=\"fas fa-user-alt\"></i>\r\n    </span>\r\n  </div>\r\n  <div class=\"icon\" pTooltip=\"Logout\" tooltipPosition=\"right\" tooltipStyleClass=\"tooltip\" (click)=\"logout()\">\r\n    <span class=\"icon\">\r\n      <i class=\"fas fa-sign-out-alt\"></i>\r\n    </span>\r\n  </div>\r\n  <div class=\"icon\" pTooltip=\"Admin\" tooltipPosition=\"right\" tooltipStyleClass=\"tooltip\" >\r\n    <span class=\"icon\">\r\n      <i class=\"fas fa-user-shield\"></i>\r\n    </span>\r\n  </div>\r\n</div>\r\n\r\n<p-overlayPanel #op [dismissable]=\"true\" (onShow)=\"clearQuery()\">\r\n  <div class=\"ui-g-12 searching-panel\">\r\n    <p-autoComplete [(ngModel)]=\"query\" [autoHighlight]=\"true\" [suggestions]=\"locationResults\" [minLength]=\"3\"\r\n      size=\"30\" field=\"title\"\r\n      (completeMethod)=\"locationSearch($event)\" placeholder=\"Location\" (onSelect)=\"centerMap($event, op)\"></p-autoComplete>\r\n  </div>\r\n</p-overlayPanel>\r\n"
 
 /***/ }),
 
@@ -7892,7 +7923,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! G:\Spotcrew\spotcrew\src\main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! C:\Users\Emil.DESKTOP-UEJ8UUE\IdeaProjects\spotcrew0.2\src\main.ts */"./src/main.ts");
 
 
 /***/ })

@@ -680,10 +680,10 @@ if(false) {}
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! G:\Spotcrew\spotcrew\node_modules\primeicons\primeicons.css */"./node_modules/primeicons/primeicons.css");
-__webpack_require__(/*! G:\Spotcrew\spotcrew\node_modules\primeng\resources\themes\nova-light\theme.css */"./node_modules/primeng/resources/themes/nova-light/theme.css");
-__webpack_require__(/*! G:\Spotcrew\spotcrew\node_modules\primeng\resources\primeng.min.css */"./node_modules/primeng/resources/primeng.min.css");
-module.exports = __webpack_require__(/*! G:\Spotcrew\spotcrew\src\styles.css */"./src/styles.css");
+__webpack_require__(/*! C:\Users\Emil.DESKTOP-UEJ8UUE\IdeaProjects\spotcrew0.2\node_modules\primeicons\primeicons.css */"./node_modules/primeicons/primeicons.css");
+__webpack_require__(/*! C:\Users\Emil.DESKTOP-UEJ8UUE\IdeaProjects\spotcrew0.2\node_modules\primeng\resources\themes\nova-light\theme.css */"./node_modules/primeng/resources/themes/nova-light/theme.css");
+__webpack_require__(/*! C:\Users\Emil.DESKTOP-UEJ8UUE\IdeaProjects\spotcrew0.2\node_modules\primeng\resources\primeng.min.css */"./node_modules/primeng/resources/primeng.min.css");
+module.exports = __webpack_require__(/*! C:\Users\Emil.DESKTOP-UEJ8UUE\IdeaProjects\spotcrew0.2\src\styles.css */"./src/styles.css");
 
 
 /***/ })
